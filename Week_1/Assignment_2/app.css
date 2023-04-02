@@ -62,9 +62,10 @@ li {
   background-color: #8898aa;
   text-align: center;
   line-height: 2.5;
-  margin: 10px;
+  margin: 10px 20px;
   height: 150px;
-  width: 500px;
+  flex: 1 500px;
+  /* width: 500px; */
 }
 
 button {
@@ -75,4 +76,18 @@ button {
   padding: 10px 20px;
   display: grid;
   margin: 10px auto;
+}
+
+@media (max-width: 750px) {
+
+  nav,
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  li {
+    margin: 10px;
+  }
+
 }
