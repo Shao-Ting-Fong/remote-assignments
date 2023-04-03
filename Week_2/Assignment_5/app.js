@@ -1,9 +1,12 @@
-function binarySearchPosition(numbers, target) { // your code here
+function binarySearchPosition(numbers, target) {
+  // Time Complexity: O(logN)
+  // Space Complexity: O(1)
+
   let head = 0;
   let tail = numbers.length - 1;
   let mid = Math.floor((head + tail) / 2);
 
-  while (head <= tail) {
+  while (head <= tail) { // Should be <= instead of < so one-element cases won't failed.
 
     mid = Math.floor((head + tail) / 2);
 
