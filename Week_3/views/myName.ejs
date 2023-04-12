@@ -15,7 +15,7 @@
     <body class="d-flex flex-column min-vh-100">
         <%- include('../partials/navbar')%>
         <main class="container-fluid">
-            <div class="waviy">
+            <div class="waviy ms-3 mb-3">
                 <span style="--i: 1">H</span>
                 <span style="--i: 2">e</span>
                 <span style="--i: 3">l</span>
@@ -26,7 +26,18 @@
                 <span style="--i: <%= j + 7 %>"><%= name.charAt(j) %></span>
                 <% } %>
             </div>
+            <button class="logout btn btn-outline-secondary btn-lg ms-3">Not <%= name %>? Log Out</button>
         </main>
         <%- include('../partials/footer')%>
+
+        <script>
+            const button = document.querySelector(".logout");
+
+            button.addEventListener("click", () => {
+                console.log("CLICKED");
+                document.cookie = "name=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                window.location.reload();
+            });
+        </script>
     </body>
 </html>
