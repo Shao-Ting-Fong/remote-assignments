@@ -27,6 +27,11 @@ form input {
     text-align: center;
 }
 
+form input:focus {
+    outline: none;
+    border-color: brown;
+}
+
 form button {
     font-size: 3rem;
     background-color: transparent;

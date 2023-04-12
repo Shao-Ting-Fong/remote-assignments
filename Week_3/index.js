@@ -32,7 +32,7 @@ app.get("/data", (req, res) => {
 
     if (!number) {
         responseData.message = "Lack of Parameter";
-    } else if (isNaN(number) || parseInt(number) <= 0) {
+    } else if (isNaN(number) || parseInt(number) <= 0 || Number(number) % 1 !== 0) {
         responseData.message = "Wrong Parameter";
     } else {
         responseData.isValid = true;
@@ -61,7 +61,6 @@ app.get("/trackName", (req, res) => {
     const { name } = req.query;
     if (!name) {
         res.render("new");
-        // res.sendFile("/public/new.html", { root: __dirname });
     } else {
         res.cookie("name", name);
         res.redirect("/myName");
