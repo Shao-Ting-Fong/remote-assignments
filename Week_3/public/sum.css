@@ -1,45 +1,45 @@
 main {
-    width: 100%;
-    height: calc(100vh - 112px);
+  width: 100%;
+  height: calc(100vh - 112px);
 
-    font-family: "Pangolin", cursive;
+  font-family: "Pangolin", cursive;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: start;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  text-align: center;
 
-    background-color: bisque;
+  background-color: bisque;
 }
 
 .header-text {
-    font-size: 5rem;
+  font-size: 5rem;
 }
 
 form input {
-    width: 200px;
-    height: 50px;
+  width: 200px;
+  height: 50px;
 
-    border-radius: 20px;
-    border: 2px solid brown;
+  border-radius: 20px;
+  border: 2px solid brown;
 
-    text-align: center;
+  text-align: center;
 }
 
 form input:focus {
-    outline: none;
-    border-color: brown;
+  outline: none;
+  border-color: brown;
 }
 
 form button {
-    font-size: 3rem;
-    background-color: transparent;
-    border: none;
+  font-size: 3rem;
+  background-color: transparent;
+  border: none;
 }
 
 .calc-result {
-    max-width: 100vh;
-    font-size: 3rem;
-    overflow-wrap: break-word;
+  max-width: 100vh;
+  font-size: 3rem;
+  overflow-wrap: break-word;
 }

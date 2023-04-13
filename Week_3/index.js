@@ -11,62 +11,63 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-    res.render("index");
+  res.render("index");
 });
 
 const sumFromOne = (number, isBigInt) => {
-    if (isBigInt) {
-        return ((BigInt(number) * (BigInt(number) + 1n)) / 2n).toString();
-    } else {
-        return 0.5 * parseInt(number) * (parseInt(number) + 1);
-    }
+  if (isBigInt) {
+    return ((BigInt(number) * (BigInt(number) + 1n)) / 2n).toString();
+  } else {
+    return 0.5 * parseInt(number) * (parseInt(number) + 1);
+  }
 };
 
 app.get("/data", (req, res) => {
-    const { number } = req.query;
-    const responseData = {
-        isValid: false,
-        message: "",
-        value: 0,
-    };
+  const { number } = req.query;
+  const responseData = {
+    isValid: false,
+    message: "",
+    value: 0,
+  };
 
-    if (!number) {
-        responseData.message = "Lack of Parameter";
-    } else if (isNaN(number) || parseInt(number) <= 0 || Number(number) % 1 !== 0) {
-        responseData.message = "Wrong Parameter";
-    } else {
-        responseData.isValid = true;
-        responseData.message = "Success";
+  if (!number) {
+    responseData.message = "Lack of Parameter";
+  } else if (isNaN(number) || parseInt(number) <= 0 || Number(number) % 1 !== 0) {
+    responseData.message = "Wrong Parameter";
+  } else {
+    responseData.isValid = true;
+    responseData.message = "Success";
 
-        const isBigInt = parseInt(number) > (Number.MAX_SAFE_INTEGER ^ 0.5);
-        responseData.value = sumFromOne(number, isBigInt);
-    }
-    res.json(responseData);
+    const isBigInt = parseInt(number) > (Number.MAX_SAFE_INTEGER ^ 0.5);
+    responseData.value = sumFromOne(number, isBigInt);
+  }
+  res.json(responseData);
 });
 
 app.get("/sum", (req, res) => {
-    res.sendFile(path.join(__dirname, "public/sum.html"));
+  res.sendFile(path.join(__dirname, "public/sum.html"));
 });
 
 app.get("/myName", (req, res) => {
-    const { name } = req.cookies;
-    if (!name) {
-        res.redirect("/trackName");
-    } else {
-        res.render("myName", { name });
-    }
+  const { name } = req.cookies;
+  if (!name) {
+    res.render("new");
+  } else {
+    res.render("myName", { name });
+  }
 });
 
 app.get("/trackName", (req, res) => {
-    const { name } = req.query;
-    if (!name) {
-        res.render("new");
-    } else {
-        res.cookie("name", name);
-        res.redirect("/myName");
-    }
+  const { name } = req.query;
+  res.cookie("name", name);
+  res.redirect("/myName");
+});
+
+app.get("/logout", (req, res) => {
+  res.clearCookie("name");
+  res.redirect("/myName");
 });
 
 app.listen("3000", () => {
-    console.log("ON PORT 3000!");
+  console.log("ON PORT 3000!");
 });

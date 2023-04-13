@@ -1,15 +1,15 @@
 function twoSum(nums, target) {
-    // Method 1: hashmap
-    // Time Complexity: O(n)
-    // Space Complexity: O(n)
-    const pairs = {};
-    for (let i = 0; i < nums.length; i++) {
-        if (nums[i] in pairs) {
-            return [pairs[nums[i]], i];
-        } else {
-            pairs[target - nums[i]] = i;
-        }
+  // Method 1: hashmap
+  // Time Complexity: O(n)
+  // Space Complexity: O(n)
+  const pairs = {};
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] in pairs) {
+      return [pairs[nums[i]], i];
+    } else {
+      pairs[target - nums[i]] = i;
     }
+  }
 }
 
 console.log(twoSum([2, 7, 11, 15], 9));
