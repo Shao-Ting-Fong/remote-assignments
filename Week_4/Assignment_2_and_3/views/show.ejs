@@ -1,0 +1,22 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container d-flex flex-column justify-content-center col-6 offset-3">
+  <h1 class="text-center my-3">All Items</h1>
+  <button class="btn btn-large btn-primary btn-show">Show All Items</button>
+
+  <table class="table table-striped table-hover mt-3">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Description</th>
+      </tr>
+    </thead>
+    <tbody class="all-items"></tbody>
+  </table>
+
+  <!-- <div class="all-items col-6"></div> -->
+  <div class="col-6 mt-3">
+    <a href="/" class="btn btn-danger">Back</a>
+  </div>
+</div>
