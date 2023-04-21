@@ -4,7 +4,9 @@ const ejsMate = require("ejs-mate");
 const session = require("express-session");
 const flash = require("connect-flash");
 const dotenv = require("dotenv");
-const { getUserById, register, login, findArticleByUserID } = require("./models/database");
+
+const userRoutes = require("./routes/users");
+const indexRoutes = require("./routes/index");
 
 const app = express();
 dotenv.config();
@@ -36,76 +38,8 @@ app.use((req, res, next) => {
   next();
 });
 
-const requireLogin = (req, res, next) => {
-  if (!req.session.user) {
-    req.flash("error", "Log in to continue.");
-    return res.redirect("/login");
-  }
-  next();
-};
-
-app.get("/", (req, res) => {
-  res.render("index", { title: "Home Page" });
-});
-
-app.get("/show", (req, res) => {
-  res.render("show", { title: "All Items" });
-});
-
-app.get("/register", (req, res) => {
-  res.render("users/register", { title: "Register" });
-});
-
-app.post("/register", async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const registeredUser = await register(email, password);
-    req.session.user = registeredUser;
-    req.flash("success", "Welcome!");
-    res.redirect("/");
-  } catch (err) {
-    req.flash("error", err.message);
-    res.redirect("/register");
-  }
-});
-
-app.get("/login", (req, res) => {
-  res.render("users/login", { title: "Login" });
-});
-
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const loginUser = await login(email, password);
-    req.flash("success", "Welcome Back!");
-    req.session.user = loginUser;
-    res.redirect(`/member/${loginUser.id}`);
-  } catch (err) {
-    req.flash("error", err.message);
-    res.redirect("/login");
-  }
-});
-
-app.get("/member/:id", requireLogin, async (req, res) => {
-  const { id } = req.params;
-  try {
-    const foundUser = await getUserById(id);
-    if (foundUser.id !== req.session.user.id) {
-      throw new Error("Access denied.");
-    }
-    const articles = await findArticleByUserID(id);
-    res.render("users/member", { articles, title: "Member Profile" });
-  } catch (err) {
-    req.flash("error", err.message);
-    res.redirect(`/member/${req.session.user.id}`);
-  }
-});
-
-app.get("/logout", requireLogin, (req, res) => {
-  req.session.user = null;
-  req.flash("success", "GoodBye~");
-  res.redirect("/");
-});
+app.use("/", userRoutes);
+app.use("/index", indexRoutes);
 
 app.all("*", (req, res, next) => {
   next(new Error("Page Not Found", 404));

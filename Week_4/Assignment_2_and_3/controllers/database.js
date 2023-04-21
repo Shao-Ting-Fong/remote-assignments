@@ -18,10 +18,12 @@ const getUsersID = async () => {
   return rows.map((ele) => ele.id);
 };
 
-module.exports.getUserById = async (id) => {
+const getUserById = async (id) => {
   const [rows] = await pool.query(`SELECT * FROM users WHERE id = ?`, [id]);
   return rows[0];
 };
+
+module.exports.getUserById = getUserById;
 
 const getUserByEmail = async (email) => {
   const [rows] = await pool.query(`SELECT * FROM users WHERE email = ?`, [email]);
@@ -78,13 +80,3 @@ module.exports.login = async (email, password) => {
 
   return foundUser;
 };
-
-// async function main() {
-//   // const articles = await generateArticles(30);
-//   const articles = await findArticleByUserID(1);
-//   console.log(articles);
-// }
-
-// main();
-// const result = await createNote("test", "test");
-// console.log(result);

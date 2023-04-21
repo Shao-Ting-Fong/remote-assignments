@@ -2,9 +2,9 @@ const result = document.querySelector(".all-items");
 
 async function ajax(src, callback) {
   // your code here
-  let data = await fetch(src);
-  data = await data.json();
-  callback(data);
+  const data = await fetch(src);
+  const dataJson = await data.json();
+  callback(dataJson);
 }
 
 function render(data) {
