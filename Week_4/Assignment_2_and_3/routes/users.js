@@ -3,13 +3,9 @@ const router = express.Router();
 const { requireLogin } = require("../middleware");
 const users = require("../controllers/users");
 
-router.get("/register", users.renderRegister);
+router.route("/register").get(users.renderRegister).post(users.registerUser);
 
-router.post("/register", users.registerUser);
-
-router.get("/login", users.renderLogin);
-
-router.post("/login", users.loginUser);
+router.route("/login").get(users.renderLogin).post(users.loginUser);
 
 router.get("/member/:id", requireLogin, users.getUserInfo);
 

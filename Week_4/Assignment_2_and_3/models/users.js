@@ -1,8 +1,9 @@
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
+const path = require("path");
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, "/../.env") });
 
 const pool = mysql
   .createPool({
@@ -23,42 +24,12 @@ const getUserById = async (id) => {
   return rows[0];
 };
 
-module.exports.getUserById = getUserById;
-
 const getUserByEmail = async (email) => {
   const [rows] = await pool.query(`SELECT * FROM users WHERE email = ?`, [email]);
   return rows[0];
 };
 
-const getArticles = async () => {
-  const [rows] = await pool.query("SELECT * FROM articles");
-  return rows;
-};
-
-const generateArticles = async (num) => {
-  const usersID = await getUsersID();
-  await pool.query("TRUNCATE TABLE articles;");
-  for (let i = 0; i < num; i++) {
-    let title = `Article ${i + 1}`;
-    let content = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem voluptates, maiores dolores deserunt qui quo fugiat, error eligendi magnam similique accusantium fuga in iure aliquam ex pariatur vitae! In, repudiandae!";
-    await pool.query(
-      `
-      INSERT INTO articles (author_id, title, content)
-      VALUES (?, ?, ?)
-      `,
-      [usersID[i % usersID.length], title, content]
-    );
-  }
-  const result = await getArticles();
-  return result;
-};
-
-module.exports.findArticleByUserID = async (id) => {
-  const [rows] = await pool.query("SELECT * FROM articles WHERE author_id = ?", [id]);
-  return rows;
-};
-
-module.exports.register = async (email, password) => {
+const register = async (email, password) => {
   const hashPassword = await bcrypt.hash(password, 12);
   const [result] = await pool.query(
     `
@@ -71,7 +42,7 @@ module.exports.register = async (email, password) => {
   return getUserById(id);
 };
 
-module.exports.login = async (email, password) => {
+const login = async (email, password) => {
   const foundUser = await getUserByEmail(email);
   if (!foundUser) throw new Error("Invalid user email or password.");
 
@@ -79,4 +50,11 @@ module.exports.login = async (email, password) => {
   if (!isValid) throw new Error("Invalid user email or password.");
 
   return foundUser;
+};
+
+module.exports = {
+  getUsersID,
+  getUserById,
+  register,
+  login,
 };

@@ -1,4 +1,5 @@
-const { getUserById, register, login, findArticleByUserID } = require("./database");
+const { getUserById, register, login } = require("../models/users");
+const { findArticleByUserID } = require("../models/articles");
 
 module.exports.renderRegister = (req, res) => {
   res.render("users/register", { title: "Register" });
